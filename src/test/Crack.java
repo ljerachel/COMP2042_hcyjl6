@@ -44,6 +44,11 @@ public class Crack {
         crack.reset();
     }
 
+    /**
+     * @param brickFace
+     * @param point
+     * @param direction
+     */
     protected void makeCrack(Shape brickFace , Point2D point, int direction) {
         Rectangle bounds = brickFace.getBounds();
 
