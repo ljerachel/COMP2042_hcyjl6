@@ -51,6 +51,7 @@ public class Wall {
     private int brickCount;
     private int ballCount;
     private boolean ballLost;
+    private int highscore ;
 
     /**
      * @param drawArea area of the entire wall
@@ -228,11 +229,13 @@ public class Wall {
     public void findImpacts(){
         if(player.impact(ball)){
             ball.reverseY();
+
         }
         else if(impactWall()){
             /*for efficiency reverse is done into method impactWall
             * because for every brick program checks for horizontal and vertical impacts
             */
+            highscore += 1 ;
             brickCount--;
         }
         else if(impactBorder()) {   // hit the border of the wall
@@ -248,7 +251,7 @@ public class Wall {
     }
 
     /**
-     * @return if the brick is broken or not
+     * @return if the brick can have an impact
      */
     private boolean impactWall(){
         for(Brick b : bricks){
@@ -267,8 +270,10 @@ public class Wall {
                     return b.setImpact(ball.right,Crack.RIGHT);
                 case Brick.RIGHT_IMPACT:
                     ball.reverseX();
-                    return b.setImpact(ball.left,Crack.LEFT);
+                    return b.setImpact(ball.left,Crack.LEFT);  // return true if impact is hit
             }
+
+
         }
         return false;
     }
@@ -395,4 +400,10 @@ public class Wall {
         return  out;
     }
 
+    public int getHighscore() {
+        return highscore;
+    }
+
+
 }
+

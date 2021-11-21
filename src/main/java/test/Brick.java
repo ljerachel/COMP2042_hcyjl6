@@ -27,6 +27,7 @@ abstract public class Brick  {
 
     private static Random rnd;
 
+
     private String name;
     Shape brickFace;
 
@@ -72,10 +73,10 @@ abstract public class Brick  {
     /**
      * @param point point of impact on the ball
      * @param dir direction of the impact!!!!!
-     * @return
+     * @return false if broken ,true if not broken and has impact
      */
     public  boolean setImpact(Point2D point , int dir){
-        if(broken)
+        if(broken)    // true
             return false;
         impact();
         return  broken;
@@ -110,6 +111,7 @@ abstract public class Brick  {
             out = DOWN_IMPACT;
         else if(brickFace.contains(b.down))
             out = UP_IMPACT;
+
         return out;
     }
 
@@ -134,15 +136,8 @@ abstract public class Brick  {
      */
     public void impact(){
         strength--;
-        broken = (strength == 0);
+        broken = (strength == 0); // broken = true (when broken)
     }
-
-
-
-
-
-
-
 
 
 }

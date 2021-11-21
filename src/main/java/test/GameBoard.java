@@ -45,6 +45,8 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
     private Wall wall;
 
     private String message;
+    private String message2 ;
+    private String HSstring ; // !!!!! Score: %d , wall.getHighScore() ; (getter method)
 
     private boolean showPauseMenu;
 
@@ -80,31 +82,37 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
         //initialize the first level
         wall.nextLevel();
 
-        gameTimer = new Timer(10,e ->{
+        gameTimer = new Timer(10,e ->{  // for every 10 milliseconds , check for updates in the game
             wall.move();
             wall.findImpacts();
-            message = String.format("Bricks: %d Balls %d",wall.getBrickCount(),wall.getBallCount());
+            message = String.format("Bricks: %d Balls %d ",wall.getBrickCount(),wall.getBallCount());
+            message2 = String.format("Current Score : %d ", wall.getHighscore());
+
+
             if(wall.isBallLost()){
                 if(wall.ballEnd()){
                     wall.wallReset();
-                    message = "Game over\n score is ";  // score is
+                    message = String.format("Game over\n Score: %d "  , wall.getHighscore()) ;
+                    HighScoreController hsc = new HighScoreController();
                 }
                 wall.ballReset();
                 gameTimer.stop();
             }
             else if(wall.isDone()){
                 if(wall.hasLevel()){
-                    message = "Go to Next Level"; 
+                    message = "Go to Next Level";
+
                     gameTimer.stop();
                     wall.ballReset();
                     wall.wallReset();
                     wall.nextLevel();
                 }
                 else{
-                    message = "ALL WALLS DESTROYED\n Score is recorded in the system";
+                    message = String.format("ALL WALLS DESTROYED\n Score : %d is recorded in the system", wall.getHighscore()); // total score
+                    //HighScoreController hsc = new HighScoreController();
+
                     gameTimer.stop();
 
-                    // enter high score here
                 }
             }
 
@@ -133,6 +141,8 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
 
         g2d.setColor(Color.BLUE);
         g2d.drawString(message,250,225);
+
+        g2d.drawString(message2 , 250, 240 );
 
         drawBall(wall.ball,g2d);
 
@@ -368,6 +378,9 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
         }
     }
 
+    /**
+     * when the application is minimized
+     */
     public void onLostFocus(){
         gameTimer.stop();
         message = "Focus Lost";
