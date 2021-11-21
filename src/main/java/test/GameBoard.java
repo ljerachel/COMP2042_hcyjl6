@@ -39,6 +39,7 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
 
     private static final Color BG_COLOR = Color.WHITE;
 
+
     private Timer gameTimer;
 
     private Wall wall;
@@ -57,6 +58,9 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
     private DebugConsole debugConsole;
 
 
+    /**
+     * @param owner
+     */
     public GameBoard(JFrame owner){
         super();
 
@@ -83,22 +87,24 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
             if(wall.isBallLost()){
                 if(wall.ballEnd()){
                     wall.wallReset();
-                    message = "Game over";
+                    message = "Game over\n score is ";  // score is
                 }
                 wall.ballReset();
                 gameTimer.stop();
             }
             else if(wall.isDone()){
                 if(wall.hasLevel()){
-                    message = "Go to Next Level";
+                    message = "Go to Next Level"; 
                     gameTimer.stop();
                     wall.ballReset();
                     wall.wallReset();
                     wall.nextLevel();
                 }
                 else{
-                    message = "ALL WALLS DESTROYED";
+                    message = "ALL WALLS DESTROYED\n Score is recorded in the system";
                     gameTimer.stop();
+
+                    // enter high score here
                 }
             }
 
@@ -131,7 +137,7 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
         drawBall(wall.ball,g2d);
 
         for(Brick b : wall.bricks)
-            if(!b.isBroken())
+            if(!b.isBroken())   // false (not broken draw the brick)
                 drawBrick(b,g2d);
 
         drawPlayer(wall.player,g2d);

@@ -12,6 +12,8 @@ public class Crack {
     private static final int CRACK_SECTIONS = 3;
     private static final double JUMP_PROBABILITY = 0.7;
 
+
+    //
     public static final int LEFT = 10;
     public static final int RIGHT = 20;
     public static final int UP = 30;
@@ -26,6 +28,10 @@ public class Crack {
     private int steps;
 
 
+    /**
+     * @param crackDepth depth of the crack
+     * @param steps
+     */
     public Crack(int crackDepth, int steps) {
 
         crack = new GeneralPath();
@@ -35,19 +41,27 @@ public class Crack {
     }
 
 
+    /**
+     * @return crack drawing
+     */
     public GeneralPath draw() {
 
         return crack;
     }
 
+    /**
+     * reset the cracks ?
+     */
     public void reset() {
         crack.reset();
     }
 
     /**
-     * @param brickFace
-     * @param point
-     * @param direction
+     * @param brickFace the bricks
+     * @param point position of the crack
+     * @param direction direction of the crack
+     * @var start start of crack
+     * @var end end of crack
      */
     protected void makeCrack(Shape brickFace , Point2D point, int direction) {
         Rectangle bounds = brickFace.getBounds();
@@ -89,6 +103,10 @@ public class Crack {
         }
     }
 
+    /**
+     * @param start the point where the crack starts
+     * @param end the point where the crack ends
+     */
     protected void makeCrack(Point start, Point end) {
 
         GeneralPath path = new GeneralPath();
@@ -120,12 +138,21 @@ public class Crack {
         crack.append(path, true);
     }
 
+    /**
+     * @param bound ??
+     * @return a random bound number
+     */
     private int randomInBounds(int bound) {
         int n = (bound * 2) + 1;
         return getRnd().nextInt(n) - bound;
     }
 
-
+    /**  !!!!
+     * @param i
+     * @param steps
+     * @param divisions
+     * @return
+     */
     private boolean inMiddle(int i, int steps, int divisions) {
         int low = (steps / divisions);
         int up = low * (divisions - 1);
@@ -141,6 +168,12 @@ public class Crack {
 
     }
 
+    /**
+     * @param from the start of the brick
+     * @param to
+     * @param direction
+     * @return
+     */
     private Point makeRandomPoint(Point from, Point to, int direction) {
 
         Point out = new Point();

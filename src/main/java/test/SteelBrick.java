@@ -33,6 +33,10 @@ public class SteelBrick extends Brick {
     private Random rnd;
     private Shape brickFace;
 
+    /**
+     * @param point position of the steel brick
+     * @param size size of the brick
+     */
     public SteelBrick(Point point, Dimension size){
         super(NAME,point,size,DEF_BORDER,DEF_INNER,STEEL_STRENGTH);
         rnd = new Random();
@@ -50,6 +54,12 @@ public class SteelBrick extends Brick {
         return brickFace;
     }
 
+    /**
+     * @param point point of impact on the ball
+     * @param dir direction of the impact!!!!!
+     * @return check if the brick is broken
+     */
+
     public  boolean setImpact(Point2D point , int dir){
         if(super.isBroken())
             return false;
@@ -57,9 +67,12 @@ public class SteelBrick extends Brick {
         return  super.isBroken();
     }
 
+    /**
+     * if the random double generated is lower than 0.4, impact between ball and brick will occur
+     */
     public void impact(){
         if(rnd.nextDouble() < STEEL_PROBABILITY){
-            super.impact();
+            super.impact();  //  the strength of the brick decreases when hit on impact , broken when strength = 0
         }
     }
 

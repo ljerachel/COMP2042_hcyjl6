@@ -39,9 +39,17 @@ abstract public class Brick  {
     private boolean broken;
 
 
+    /**
+     * @param name type of brick
+     * @param pos position of brick
+     * @param size size of brick
+     * @param border border colour of brick
+     * @param inner the inner brick colour
+     * @param strength how hard it is to break the brick
+     */
     public Brick(String name, Point pos,Dimension size,Color border,Color inner,int strength){
         rnd = new Random();
-        broken = false;
+        broken = false;   //the brick broken or not
         this.name = name;
         brickFace = makeBrickFace(pos,size);
         this.border = border;
@@ -54,8 +62,18 @@ abstract public class Brick  {
         return rnd;
     }
 
+    /**
+     * @param pos position of the brick
+     * @param size size of the brick
+     * @return
+     */
     protected abstract Shape makeBrickFace(Point pos,Dimension size);
 
+    /**
+     * @param point point of impact on the ball
+     * @param dir direction of the impact!!!!!
+     * @return
+     */
     public  boolean setImpact(Point2D point , int dir){
         if(broken)
             return false;
@@ -76,6 +94,10 @@ abstract public class Brick  {
     }
 
 
+    /**
+     * @param b the ball
+     * @return the side of impact on the brick
+     */
     public final int findImpact(Ball b){
         if(broken)
             return 0;
@@ -91,19 +113,35 @@ abstract public class Brick  {
         return out;
     }
 
-    public final boolean isBroken(){
+    /**
+     * @return true if broken false if not broken
+     */
+    public final boolean isBroken()
+    {
         return broken;
     }
 
+    /**
+     * reset the strength of bricks
+     */
     public void repair() {
         broken = false;
         strength = fullStrength;
     }
 
+    /**
+     * the strength of the brick decreases when hit on impact , broken when strength = 0
+     */
     public void impact(){
         strength--;
         broken = (strength == 0);
     }
+
+
+
+
+
+
 
 
 

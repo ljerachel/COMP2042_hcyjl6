@@ -21,7 +21,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-// MVC - controller
+
+// MVC controller
+// the actual game
 
 public class GameFrame extends JFrame implements WindowFocusListener {
 
@@ -58,6 +60,9 @@ public class GameFrame extends JFrame implements WindowFocusListener {
         this.setVisible(true);
     }
 
+    /**
+     *
+     */
     public void enableGameBoard(){
         this.dispose();
         this.remove(homeMenu);

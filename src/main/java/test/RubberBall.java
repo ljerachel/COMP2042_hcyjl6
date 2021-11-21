@@ -34,6 +34,12 @@ public class RubberBall extends Ball {
     }
 
 
+    /**
+     * !!!@param center coordinates of the ball in the center
+     * !!!@param radiusA x coordinate of the upper left corner of the framing rectangle
+     * !!!@param radiusB y coordinate of the upper left corner of the framing rectangle
+     * @return framing rectangle
+     */
     @Override
     protected Shape makeBall(Point2D center, int radiusA, int radiusB) {
 

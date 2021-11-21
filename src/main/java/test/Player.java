@@ -19,7 +19,7 @@ package test;
 
 import java.awt.*;
 
-// controller
+
 public class Player {
 
 
@@ -35,6 +35,12 @@ public class Player {
     private int max;
 
 
+    /**
+     * @param ballPoint starting position of the ball
+     * @param width width of the player's rectangle
+     * @param height height of the player's rectangle
+     * @param container the area that can allow movement of the player's rectangle
+     */
     public Player(Point ballPoint,int width,int height,Rectangle container) {
         this.ballPoint = ballPoint;
         moveAmount = 0;
@@ -44,15 +50,27 @@ public class Player {
 
     }
 
+    /**
+     * @param width width of the player's rectangle
+     * @param height height of the player's rectangle
+     * @return a rectangle with the width and height in the parameter
+     */
     private Rectangle makeRectangle(int width,int height){
         Point p = new Point((int)(ballPoint.getX() - (width / 2)),(int)ballPoint.getY());
         return  new Rectangle(p,new Dimension(width,height));
     }
 
+    /**
+     * @param b ball
+     * @return the position of the ball when it impacts with the player's rectangle
+     */
     public boolean impact(Ball b){
         return playerFace.contains(b.getPosition()) && playerFace.contains(b.down) ;
     }
 
+    /**
+     * controls the movement of the player's rectangle
+     */
     public void move(){
         double x = ballPoint.getX() + moveAmount;
         if(x < min || x > max)
@@ -61,6 +79,9 @@ public class Player {
         playerFace.setLocation(ballPoint.x - (int)playerFace.getWidth()/2,ballPoint.y);
     }
 
+    /**
+     * the player rectangle moves left by 5 units
+     */
     public void moveLeft(){
         moveAmount = -DEF_MOVE_AMOUNT;
     }
@@ -77,6 +98,10 @@ public class Player {
         return  playerFace;
     }
 
+    /**
+     * @param p the middle position (starting position)
+     * resets the position of the player's rectangle during start of each round / lose the ball
+     */
     public void moveTo(Point p){
         ballPoint.setLocation(p);
         playerFace.setLocation(ballPoint.x - (int)playerFace.getWidth()/2,ballPoint.y);
