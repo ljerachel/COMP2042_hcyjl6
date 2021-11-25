@@ -59,6 +59,7 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
     private Font creditsFont;
     private Font buttonFont;
 
+    static JTextArea t1;
     private GameFrame owner;
 
     private boolean startClicked;
@@ -106,7 +107,7 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
     }
 
 
-    public void drawMenu(Graphics2D g2d){
+    public void drawMenu(Graphics2D g2d) {
 
         drawContainer(g2d);
 
@@ -121,16 +122,20 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
         double x = menuFace.getX();
         double y = menuFace.getY();
 
-        g2d.translate(x,y);
+        g2d.translate(x, y);
 
         //methods calls
         drawText(g2d);
         drawButton(g2d);
         //end of methods calls
 
-        g2d.translate(-x,-y);
+        g2d.translate(-x, -y);
         g2d.setFont(prevFont);
         g2d.setColor(prevColor);
+
+        t1 = new JTextArea(20, 20);
+        t1.setToolTipText("this is a text Area");
+        //g2d.drawRect();
     }
 
     private void drawContainer(Graphics2D g2d){
@@ -221,6 +226,7 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
         else{
             g2d.draw(startButton);
             g2d.drawString(START_TEXT,x,y);
+
         }
 
         x = startButton.x;
@@ -263,11 +269,14 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
         if(startButton.contains(p)){
            owner.enableGameBoard();
 
+
         }
         else if(menuButton.contains(p)){
             System.out.println("Goodbye " + System.getProperty("user.name"));
             System.exit(0);
         }
+
+
     }
 
     @Override

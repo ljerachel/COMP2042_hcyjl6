@@ -8,34 +8,26 @@ import java.io.File;
  * This class is the High Score Menu Controller which is used to control the Highscore menu
  */
 
-public class HighScoreController{
+ /*   private static boolean exported;
 
-    public static void inputdata()
+    public static void inputdata(Wall wall) // pass the wall object here
 
     {
+// to do (put the data into input )i
 
-        String data[][] = {{"100", "Amit"},
-                {"90", "Jai"},
-                {"80", "Sachin"}};
+        JTable HStable = new JTable ();
 
-        String column[] = {"Score", "Name"};
-        /**
-         * Highscore table
-         */
-        JTable HStable = new JTable(data, column);
-
+        JTable column[] = ('Name, Score') ;
         final String fileName = "src/main/resources/Misc/Highscore.csv";
         final File file = new File(fileName);
+        model.addRow(new Object[]{"Column 1", "Column 2", "Column 3"});
         exportToCSV ExportCSV = new exportToCSV();
-        boolean exported = ExportCSV.export(HStable, "src/main/resources/Misc/Highscore.csv");
+        exported = ExportCSV.export(HStable, "src/main/resources/Misc/Highscore.csv");
     }
-        /**
-         * Initializes the list
-         */
+
         public void initList () {
             System.out.println("High Score is now loaded!");
 
         }
-
-
-    }
+}
+*/

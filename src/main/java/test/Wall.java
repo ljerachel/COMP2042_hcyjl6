@@ -51,7 +51,8 @@ public class Wall {
     private int brickCount;
     private int ballCount;
     private boolean ballLost;
-    private int highscore ;
+    private int currenthighscore ;
+    private int finalhighscore;
 
     /**
      * @param drawArea area of the entire wall
@@ -235,8 +236,9 @@ public class Wall {
             /*for efficiency reverse is done into method impactWall
             * because for every brick program checks for horizontal and vertical impacts
             */
-            highscore += 1 ;
+            currenthighscore += 1 ;
             brickCount--;
+
         }
         else if(impactBorder()) {   // hit the border of the wall
             ball.reverseX();
@@ -327,6 +329,9 @@ public class Wall {
             b.repair();
         brickCount = bricks.length;
         ballCount = 3;
+        finalhighscore = currenthighscore;
+        currenthighscore = 0 ;
+
     }
 
     public boolean ballEnd(){
@@ -400,10 +405,13 @@ public class Wall {
         return  out;
     }
 
-    public int getHighscore() {
-        return highscore;
+    public int getCurrenthighscore() {
+        return currenthighscore;
     }
 
 
+    public int getFinalhighscore() {
+        return finalhighscore;
+    }
 }
 
