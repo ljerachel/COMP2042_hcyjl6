@@ -17,8 +17,10 @@
  */
 package test;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.util.Random;
 
 
@@ -27,7 +29,7 @@ import java.util.Random;
  */
 public class Wall {
 
-    private static final int LEVELS_COUNT = 4;
+    private static final int LEVELS_COUNT = 5;
 
     private static final int CLAY = 1;
     private static final int STEEL = 2;
@@ -40,11 +42,21 @@ public class Wall {
     Ball ball;
     Player player;
 
-    /**
-     *
-     */
+
+
+    private boolean lifeCollected = false  ;
     private Brick[][] levels;
     private int level;
+
+    public boolean isShowWinningMsg() {
+        return showWinningMsg;
+    }
+
+    public void setShowWinningMsg(boolean showWinningMsg) {
+        this.showWinningMsg = showWinningMsg;
+    }
+
+    private boolean showWinningMsg  = false  ;
 
 
     private Point startPoint;
@@ -52,8 +64,24 @@ public class Wall {
     private int ballCount;
     private boolean ballLost;
     private int currenthighscore ;
-    private int finalhighscore;
+    private static int finalhighscore;
 
+    public int getLifeIconPosX() {
+        return LifeIconPosX;
+    }
+
+    public int getLifeIconPosY() {
+        return LifeIconPosY;
+    }
+
+    private int LifeIconPosX ;
+    private int LifeIconPosY;
+
+    public boolean isNextImpact() {
+        return nextImpact;
+    }
+
+    private boolean nextImpact  = false ;
     /**
      * @param drawArea area of the entire wall
      * @param brickCount number of bricks
@@ -68,6 +96,8 @@ public class Wall {
         levels = makeLevels(drawArea,brickCount,lineCount,brickDimensionRatio);
         level = 0;
 
+
+
         ballCount = 3;
         ballLost = false;
 
@@ -75,18 +105,17 @@ public class Wall {
 
         makeBall(ballPos);
         int speedX,speedY;
-        do{
-            speedX = rnd.nextInt(5) - 2;  // ball start from right or left
-        }while(speedX == 0);
-        do{
-            speedY = -rnd.nextInt(3);  // ball start to move in the upwards direction
-        }while(speedY == 0);
+        speedX = 8;
+        speedY = -3;
 
         ball.setSpeed(speedX,speedY);
 
         player = new Player((Point) ballPos.clone(),150,10, drawArea);
 
+
         area = drawArea;
+
+
 
 
     }
@@ -119,6 +148,7 @@ public class Wall {
         Point p = new Point();
 
         int i;
+
         for(i = 0; i < tmp.length; i++){
             int line = i / brickOnLine;
             if(line == lineCnt)
@@ -138,6 +168,10 @@ public class Wall {
         return tmp;
 
     }
+
+
+
+
 
     /**
      * @param drawArea area occupied by the total number of bricks
@@ -193,6 +227,69 @@ public class Wall {
         return tmp;
     }
 
+
+
+    private Brick[] makeExtraLevel(Rectangle drawArea, int brickCnt, int lineCnt, double brickSizeRatio, int typeA, int typeB){
+
+        brickCnt -= brickCnt % lineCnt;
+
+        int brickOnLine = brickCnt / lineCnt;  // no of bricks in one line
+
+        int centerLeft = brickOnLine / 2 - 1;
+        int centerRight = brickOnLine / 2 + 1;
+
+        double brickLen = drawArea.getWidth() / brickOnLine;  // length of an individual brick
+        double brickHgt = brickLen / brickSizeRatio;
+
+        brickCnt += lineCnt / 2;
+
+        Brick[] tmp  = new Brick[brickCnt];
+
+        Dimension brickSize = new Dimension((int) brickLen,(int) brickHgt);
+        Point p = new Point();
+
+        int i = 0;
+        int j ;
+
+
+        for (j = 1 ; j < 8 ; j ++ ) {
+
+
+            for (i = 0; i < tmp.length; i++) {
+                int line = i / brickOnLine;  // number of total bricks / bricks on line
+
+
+                if (line == lineCnt)// if reach then break loop
+                    break;
+                int posX = i % brickOnLine; // number of bricks left
+                double x = posX * brickLen;
+                x = (line % j == 0) ? x : (x - (brickLen / 2));
+
+                double y = (line) * brickHgt;
+                p.setLocation(x, y);
+
+                boolean b = ((line % 2 == 0 && i % 2 == 0) || (line % 2 != 0 && posX > centerLeft && posX <= centerRight));
+                tmp[i] = b ? makeBrick(p, brickSize, typeA) : makeBrick(p, brickSize, typeB);
+
+
+            }
+
+        }
+
+        for(double y = brickHgt;i < tmp.length;i++, y += 2*brickHgt){
+            double x = (brickOnLine * brickLen) - (brickLen / 2);
+            p.setLocation(x,y);
+            tmp[i] = makeBrick(p,brickSize,typeA);
+        }
+        return tmp;
+    }
+
+
+
+
+
+
+
     /**
      * @param ballPos position of the ball
      */
@@ -213,6 +310,7 @@ public class Wall {
         tmp[1] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,CLAY,CEMENT);
         tmp[2] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,CLAY,STEEL);
         tmp[3] = makeChessboardLevel(drawArea,brickCount,lineCount,brickDimensionRatio,STEEL,CEMENT);
+        tmp[4] = makeExtraLevel(drawArea,brickCount,lineCount,brickDimensionRatio,CLAY,CEMENT);
         return tmp;
     }
 
@@ -310,12 +408,8 @@ public class Wall {
         player.moveTo(startPoint);
         ball.moveTo(startPoint);
         int speedX,speedY;
-        do{
-            speedX = rnd.nextInt(5) - 2;
-        }while(speedX == 0);
-        do{
-            speedY = -rnd.nextInt(3);
-        }while(speedY == 0);
+            speedX = 8;
+            speedY = -3;
 
         ball.setSpeed(speedX,speedY);
         ballLost = false;
@@ -332,6 +426,28 @@ public class Wall {
         finalhighscore = currenthighscore;
         currenthighscore = 0 ;
 
+    }
+
+    public boolean isLifeCollected() {
+        return lifeCollected;
+    }
+
+    public void touchIcon(Point2D p)
+    {
+        if (!lifeCollected ) {
+            if (ball.getPosition().getX() < p.getX() + 4 && ball.getPosition().getX() > p.getX() - 4) {
+
+                if (ball.getPosition().getY() < p.getY() + 4 && ball.getPosition().getY() > p.getY() - 4) {
+                    ballCount++;
+                    System.out.println("ball touch icon");
+
+                    showWinningMsg = true ;
+                    lifeCollected = true;
+
+                }
+            }
+
+        }
     }
 
     public boolean ballEnd(){
@@ -410,7 +526,7 @@ public class Wall {
     }
 
 
-    public int getFinalhighscore() {
+    public static int getFinalhighscore() {
         return finalhighscore;
     }
 }

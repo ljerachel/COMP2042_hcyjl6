@@ -18,12 +18,15 @@
 package test;
 
 import java.awt.*;
+import java.io.IOException;
 
 
 public class GraphicsMain {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         EventQueue.invokeLater(() -> new GameFrame().initialize());
+
     }
+
 
 }

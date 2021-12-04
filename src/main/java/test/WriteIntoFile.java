@@ -1,46 +1,53 @@
 package test;
 
 import java.io.*;
-import java.util.Scanner;
-import java.io.FileNotFoundException;
-//import java.io.File;
-
-public class ModifyFile {
-    private int ranking =1 ;
-    private String name = "rachel";
-    private int highscore = 5;
 
 
 
-    public ModifyFile() throws IOException {
+public class WriteIntoFile {
+    private int ranking = 1  ;  // rank according to high scores
+    private String name ;
+    private int highscore;
+
+
+
+    public WriteIntoFile() throws IOException {
 
         highscore = Wall.getFinalhighscore();
 
 
         File a = new File("src/main/resources/Misc/Highscore.csv");
 
-        FileWriter writer = new FileWriter(a);
-        BufferedReader csvread = new BufferedReader(new FileReader(a)) ;
 
-        String[] data = row.split(",");
-        if (a != null)
-        {
+        FileWriter writer = new FileWriter(a, true);
 
-            String[] header = {"ranking", "name","High Score"};
-            String[] data = {String.valueOf(ranking), name , String.valueOf(highscore)} ;
-            writer.write(String.valueOf(header));
-            writer.write(String.);
-            writer.append((char) Wall.getFinalhighscore()) ;
+        BufferedWriter bw = new BufferedWriter(writer);
 
-            System.out.println();
-            writer.close();
-        }
 
-        else {
-            System.out.println("file already there");
+
+        for (int i = 0; i < 10; i++) {
+
+            if (a != null) {
+
+                writer.append(GameBoard.getname());
+                writer.append(',');
+                writer.append(String.valueOf(highscore));
+                writer.append(',');
+                writer.append(String.valueOf(ranking));
+                writer.append('\n');
+
+
+                writer.close();
+
+
+                System.out.println("success");
+            }
+
+            else {ranking = i ;}
 
         }
 
     }
+
 
 }

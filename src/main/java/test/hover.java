@@ -1,83 +1,73 @@
-package test;
+// java Program to submit name using JTextField and the tooltip
+// text shows the previous entries.(using
+// getToolTipText function)
+package test ;
 
+import java.awt.event.*;
+import java.awt.*;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import java.util.Map;
+class hover extends JFrame implements ActionListener {
 
-public class hover extends JTextArea {
-    // make sure Eclipse doesn't show a warning
-    private static final long serialVersionUID = 1L;
+    // frame
+    static JFrame f;
 
-    // switch to display debugging tooltip
-    boolean debug=false;
+    // text areas
+    static JTextField t1;
 
-    /**
-     * the map of tool tips per line
-     */
-    public Map<Integer,String> lineToolTips=new HashMap<Integer,String>();
+    // buttons
+    static JButton b;
 
-    /**
-     * create me with the given rows and columns
-     * @param rows
-     * @param cols
-     */
-    public hover(int rows, int cols) {
-        super(rows,cols);
-        // initialize the tool tip event handling
-        this.setToolTipText("");
+    // main class
+    public static void main(String[] args)
+    {
+        // create a new frame
+        f = new JFrame("frame");
+
+        // create a object
+        hover s = new hover();
+
+        // create a panel
+        JPanel p = new JPanel();
+
+        // create a text area
+        t1 = new JTextField(20);
+
+        // create a button
+        b = new JButton("submit");
+
+        // add actionlistener
+        b.addActionListener(s);
+
+        // create a multi line string using html using break tags
+        String s1 = "<html> key W and D to move around <br> SPACEBAR to start ball  <br>  <br> ESC to go to Pause Menu<br>      </html>";
+
+        // set tooltip text
+        t1.setToolTipText(s1);
+
+        // add text area and button
+        p.add(t1);
+        p.add(b);
+
+        // add panel
+        f.add(p);
+
+        // set the size of frame
+        f.setSize(300, 300);
+
+        f.show();
     }
 
-    /**
-     * add a tool tip for the given line
-     * @param line - the line number
-     * @param tooltip -
-     */
-    public void addToolTip(int line, String tooltip) {
-        lineToolTips.put(line,tooltip);
-    }
+    // if a button is performed
+    public void actionPerformed(ActionEvent e)
+    {
+        // if submit button is pressed add the name to the list of entries
+        // exclude the closing html tag by taking its substring
+        // add the name to the list of entries
+        // and add the html tag to the end of it
 
-    /**
-     * get the ToolTipText for the given mouse event
-     * @param event - the mouse event to handle
-     */
-    public String getToolTipText(MouseEvent event) {
-        // convert the mouse position to a model position
-        int viewToModel =viewToModel(event.getPoint());
-        // use -1 if we do not find a line number later
-        int lineNo=-1;
-        // debug information
-        String line=" line ?";
-        // did we get a valid view to model position?
-        if(viewToModel != -1){
-            try {
-                // convert the modelPosition to a line number
-                lineNo = this.getLineOfOffset(viewToModel)+1;
-                // set the debug info
-                line=" line "+lineNo;
-            } catch (BadLocationException ble) {
-                // in case the line number is invalid ignore this
-                // in debug mode show the issue
-                line=ble.getMessage();
-            }
-        }
-        // try to lookup the tool tip - will be null if the line number is invalid
-        // if you want to show a general tool tip for invalid lines you might want to
-        // add it with addToolTip(-1,"general tool tip")
-        String toolTip=this.lineToolTips.get(lineNo);
-        // if in debug mode show some info
-        if (debug)  {
-            // different display whether we found a tooltip or not
-            if (toolTip==null) {
-                toolTip="no tooltip for line "+lineNo;
-            } else {
-                toolTip="tooltip: "+toolTip+" for line "+lineNo;
-            }
-            // generally we add the position info for debugging
-            toolTip+=String.format(" at %3d / %3d ",event.getX(),event.getY());
-        }
-        // now return the tool tip as wanted
-        return toolTip;
+        // get the tooltip text
+        String s = t1.getToolTipText();
+
+        t1.setToolTipText(s.substring(0, s.length() - 8) + t1.getText() + "<br>      <html");
     }
 }

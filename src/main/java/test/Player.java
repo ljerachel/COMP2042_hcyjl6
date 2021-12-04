@@ -94,6 +94,7 @@ public class Player {
         moveAmount = 0;
     }
 
+
     public Shape getPlayerFace(){
         return  playerFace;
     }
