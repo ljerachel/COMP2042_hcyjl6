@@ -35,7 +35,10 @@ abstract public class Brick  {
     private Color border;
     private Color inner;
 
+
     private int fullStrength;
+
+
     private int strength;
 
     private boolean broken;
@@ -86,6 +89,14 @@ abstract public class Brick  {
     public abstract Shape getBrick();
 
 
+    public void setFullStrength(int fullStrength) {
+        this.fullStrength = fullStrength;
+    }
+
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
 
     public Color getBorderColor(){
         return  border;
@@ -93,6 +104,10 @@ abstract public class Brick  {
 
     public Color getInnerColor(){
         return inner;
+    }
+
+    public int getStrength() {
+        return strength;
     }
 
 
